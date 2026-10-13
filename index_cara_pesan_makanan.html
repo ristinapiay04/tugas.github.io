@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warung Selera Nostalgia</title>
+
+    <style>
+        /* ===================================== RESET ===================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff5e6;
+            color: #3d2415;
+        }
+
+        /* ===================================== NAVBAR ===================================== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 18px 8%;
+            background-color: rgba(70, 32, 10, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo { color: #ffd166; font-size: 22px; font-weight: bold; }
+        nav a { color: white; text-decoration: none; margin-left: 25px; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: #ffd166; }
+
+        /* ===================================== HERO ===================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; position: relative; overflow: hidden; color: white;
+            background:
+                linear-gradient(rgba(60, 25, 8, 0.78), rgba(60, 25, 8, 0.78)),
+                linear-gradient(135deg, #8b4513, #d2691e);
+        }
+        .hero-content { max-width: 850px; animation: muncul 2s ease; padding: 30px; }
+        .hero h1 { font-size: 60px; color: #ffd166; margin-bottom: 20px; animation: zoom 1.5s ease; }
+        .hero h2 { font-size: 30px; margin-bottom: 20px; }
+        .hero p { font-size: 18px; line-height: 1.8; margin-bottom: 30px; }
+        .orang { position: absolute; right: 7%; bottom: 0; font-size: 180px; animation: orangMasuk 2s ease; }
+        .makanan { position: absolute; font-size: 60px; animation: melayang 4s infinite ease-in-out; }
+        .makanan1 { left: 8%; top: 25%; }
+        .makanan2 { left: 18%; bottom: 20%; animation-delay: 1s; }
+        .makanan3 { right: 15%; top: 20%; animation-delay: 2s; }
+        .makanan4 { right: 8%; bottom: 25%; animation-delay: 3s; }
+
+        .tombol {
+            display: inline-block; padding: 15px 30px; margin: 5px;
+            background-color: #f4a261; color: white; text-decoration: none;
+            border-radius: 30px; font-weight: bold; transition: 0.4s;
+        }
+        .tombol:hover { transform: scale(1.1); background-color: #e76f51; }
+
+        .running { background-color: #542b13; color: #ffd166; padding: 15px; overflow: hidden; white-space: nowrap; }
+        .running-text { display: inline-block; animation: berjalan 15s linear infinite; font-weight: bold; }
+
+        section { padding: 80px 10%; }
+        .judul { text-align: center; margin-bottom: 45px; }
+        .judul h2 { font-size: 38px; color: #7b3f00; margin-bottom: 15px; }
+        .judul p { color: #6d5545; }
+
+        /* ===================================== KATEGORI MENU ===================================== */
+        .kategori-wrap { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+        .kategori-card {
+            background-color: #ffffff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(123, 63, 0, 0.12);
+        }
+
+        .kategori-head {
+            display: flex; align-items: center; gap: 16px;
+            padding: 22px 28px;
+            background: linear-gradient(120deg, #7b3f00, #b5591a);
+            color: #fff;
+        }
+        .kategori-head .ikon-bulat {
+            width: 54px; height: 54px; border-radius: 50%;
+            background-color: #ffd166; color: #7b3f00;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; flex-shrink: 0;
+        }
+        .kategori-head h3 { font-size: 24px; }
+        .kategori-head span { font-size: 14px; opacity: 0.85; }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 26px 28px 30px;
+        }
+
+        .item-menu {
+            display: flex; align-items: center; gap: 16px;
+            background-color: #fff8ee;
+            border-radius: 16px;
+            padding: 12px;
+            transition: 0.3s;
+            border: 1px solid #f1dcbb;
+        }
+        .item-menu:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(123,63,0,0.15); }
+
+        .emoji-menu {
+            width: 84px; height: 84px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fff1c7, #ffe0a3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 46px;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 0 1px #f1dcbb;
+        }
+
+        .item-info { flex: 1; }
+        .item-info .nama-baris { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .item-info h4 { font-size: 16px; color: #3d2415; }
+
+        .badge-favorit {
+            background-color: #ffd166;
+            color: #7b3f00;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        .item-info .harga-item {
+            margin-top: 6px;
+            display: inline-block;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(120deg, #e76f51, #d35400);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .item-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===================================== VIDEO PROMOSI ===================================== */
+        .promo-video-wrap {
+            width: 100%;
+            max-width: 950px;
+            margin: 0 auto;
+            background-color: #2b1408;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+        }
+
+        .promo-video-screen {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .promo-video-screen video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .promo-video-note {
+            text-align: center;
+            color: #6d5545;
+            font-size: 14px;
+            max-width: 760px;
+            margin: 18px auto 0;
+            line-height: 1.7;
+        }
+
+        /* ===================================== PEMESANAN ===================================== */
+        .pemesanan { background-color: #fffaf2; }
+        .pemesanan-box { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .pemesanan-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(123,63,0,0.10); }
+        .pemesanan-card h3 { color: #7b3f00; margin-bottom: 15px; font-size: 24px; }
+        .pemesanan-card p { line-height: 1.7; color: #6d5545; margin-bottom: 12px; }
+        .langkah-pesan { padding-left: 24px; line-height: 1.8; }
+        .langkah-pesan li { margin-bottom: 12px; }
+        .menu-bertingkat { padding-left: 24px; line-height: 1.8; }
+        .menu-bertingkat > li { margin-bottom: 8px; font-weight: bold; color: #7b3f00; }
+        .menu-bertingkat ul { margin-top: 4px; padding-left: 25px; font-weight: normal; color: #3d2415; }
+        .menu-bertingkat ul li { margin-bottom: 4px; }
+        @media (max-width: 700px) { .pemesanan-box { grid-template-columns: 1fr; } }
+
+        /* ===================================== KEUNGGULAN ===================================== */
+        .keunggulan { background-color: #f1d6b8; }
+        .keunggulan-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .keunggulan-item { background-color: white; padding: 30px; text-align: center; border-radius: 20px; transition: 0.4s; }
+        .keunggulan-item:hover { transform: translateY(-10px); }
+        .keunggulan-icon { font-size: 55px; margin-bottom: 15px; }
+        .keunggulan-item h3 { margin-bottom: 10px; }
+        .keunggulan-item p { line-height: 1.6; color: #666; }
+
+        /* ===================================== PROMO ===================================== */
+        .promo { text-align: center; background-color: #542b13; color: white; }
+        .promo h2 { font-size: 42px; color: #ffd166; animation: berdenyut 2s infinite; margin-bottom: 20px; }
+        .promo p { font-size: 18px; line-height: 1.7; margin-bottom: 25px; }
+
+        /* ===================================== ALAMAT ===================================== */
+        .alamat { text-align: center; }
+        .alamat-box {
+            max-width: 700px; margin: auto; background-color: white; padding: 35px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); line-height: 2;
+        }
+
+        footer { background-color: #2b1408; color: white; text-align: center; padding: 25px; }
+
+        /* ===================================== ANIMASI ===================================== */
+        @keyframes muncul { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoom { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        @keyframes orangMasuk { from { opacity: 0; transform: translateX(200px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes melayang { 0% { transform: translateY(0); } 50% { transform: translateY(-25px); } 100% { transform: translateY(0); } }
+        @keyframes berjalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        @keyframes berdenyut { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+
+        /* ===================================== RESPONSIVE ===================================== */
+        @media (max-width: 800px) {
+            nav { padding: 15px; }
+            nav a { margin-left: 8px; font-size: 12px; }
+            .hero h1 { font-size: 40px; }
+            .hero h2 { font-size: 22px; }
+            .orang { font-size: 100px; right: 5%; }
+            .makanan { font-size: 35px; }
+            .keunggulan-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">🍽️ Selera Nostalgia</div>
+    <div>
+        <a href="#beranda">Beranda</a>
+        <a href="#menu">Menu</a>
+        <a href="#promosi">Promosi</a>
+        <a href="#pemesanan">Cara Pesan</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#alamat">Kontak</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="beranda">
+    <div class="makanan makanan1">🍜</div>
+    <div class="makanan makanan2">🍢</div>
+    <div class="makanan makanan3">🍚</div>
+    <div class="makanan makanan4">🥤</div>
+    <div class="orang">👩🏻‍🍳</div>
+
+    <div class="hero-content">
+        <h1>Warung Selera Nostalgia</h1>
+        <h2>Cita Rasa Nusantara dalam Setiap Sajian</h2>
+        <p>
+            Selamat datang di Warung Selera Nostalgia! Kami menyajikan berbagai hidangan khas
+            Indonesia yang diolah dengan bahan-bahan segar dan resep turun-temurun.
+        </p>
+        <a href="#menu" class="tombol">🍽️ Lihat Menu</a>
+        <a href="#pemesanan" class="tombol">📝 Cara Pesan</a>
+        <a href="#alamat" class="tombol">📍 Kunjungi Kami</a>
+    </div>
+</section>
+
+<!-- RUNNING TEXT -->
+<div class="running">
+    <div class="running-text">
+        🇮🇩 CITA RASA NUSANTARA • MASAKAN LEZAT • HARGA TERJANGKAU • SUASANA HANGAT • SELERA NOSTALGIA 🇮🇩
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MENU                                                          -->
+<!-- ============================================================ -->
+<section id="menu">
+
+    <div class="judul">
+        <h2>🍴 Daftar Menu Kami</h2>
+        <p>Menu khas Indonesia dengan ikon makanan, minuman, dan dessert yang dikelompokkan per kategori.</p>
+        <p style="font-size:13px; margin-top:10px;">Harga ditampilkan dalam Rupiah (Rp) beserta perkiraan dalam Dollar Amerika (&dollar;). Kurs yang digunakan: &dollar;1 &asymp; Rp 15.000.</p>
+    </div>
+
+    <div class="kategori-wrap">
+
+        <!-- KATEGORI: MAKANAN -->
+        <div class="kategori-card">
+            <div class="kategori-head">
+                <div class="ikon-bulat">🍛</div>
+                <div>
+                    <h3>Makanan Utama</h3>
+                    <span>Hidangan berat khas Nusantara</span>
+                </div>
+            </div>
+            <div class="item-grid">
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Nasi Goreng Spesial">🍳</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Nasi Goreng Spesial</h4>
+                            <span class="badge-favorit">Favorit</span>
+                        </div>
+                        <span class="harga-item">Rp 25.000 ($1,67)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Sate Ayam Madura">🍢</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Sate Ayam Madura</h4>
+                            <span class="badge-favorit">Favorit</span>
+                        </div>
+                        <span class="harga-item">Rp 30.000 ($2,00)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Soto Ayam Lamongan">🍲</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Soto Ayam Lamongan</h4>
+                        </div>
+                        <span class="harga-item">Rp 22.000 ($1,47)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Gado-Gado Betawi">🥗</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Gado-Gado Betawi</h4>
+                        </div>
+                        <span class="harga-item">Rp 20.000 ($1,33)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KATEGORI: MINUMAN -->
+        <div class="kategori-card">
+            <div class="kategori-head">
+                <div class="ikon-bulat">🥤</div>
+                <div>
+                    <h3>Minuman Segar</h3>
+                    <span>Penyegar dahaga di siang hari</span>
+                </div>
+            </div>
+            <div class="item-grid">
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Es Teh Manis">🧋</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Es Teh Manis</h4></div>
+                        <span class="harga-item">Rp 8.000 ($0,53)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Es Jeruk Segar">🍊</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Es Jeruk Segar</h4></div>
+                        <span class="harga-item">Rp 10.000 ($0,67)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Kopi Tubruk">☕</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Kopi Tubruk</h4></div>
+                        <span class="harga-item">Rp 9.000 ($0,60)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Jus Alpukat">🥑</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Jus Alpukat</h4></div>
+                        <span class="harga-item">Rp 15.000 ($1,00)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KATEGORI: DESSERT -->
+        <div class="kategori-card">
+            <div class="kategori-head">
+                <div class="ikon-bulat">🍮</div>
+                <div>
+                    <h3>Dessert Manis</h3>
+                    <span>Penutup untuk melengkapi santapan</span>
+                </div>
+            </div>
+            <div class="item-grid">
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Es Campur">🍧</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Es Campur</h4>
+                            <span class="badge-favorit">Favorit</span>
+                        </div>
+                        <span class="harga-item">Rp 15.000 ($1,00)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Pisang Goreng Keju">🍌</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Pisang Goreng Keju</h4></div>
+                        <span class="harga-item">Rp 12.000 ($0,80)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Puding Coklat">🍮</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Puding Coklat</h4></div>
+                        <span class="harga-item">Rp 13.000 ($0,87)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Klepon">🍡</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Klepon</h4></div>
+                        <span class="harga-item">Rp 10.000 ($0,67)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- PEMESANAN -->
+<section class="pemesanan" id="pemesanan">
+    <div class="judul">
+        <h2>📝 Cara Memesan Makanan</h2>
+        <p>Ikuti langkah-langkah berikut agar proses pemesanan di Warung Selera Nostalgia mudah dan teratur.</p>
+    </div>
+
+    <div class="pemesanan-box">
+        <div class="pemesanan-card">
+            <h3>5 Langkah Pemesanan</h3>
+            <ol class="langkah-pesan">
+                <li>Pilih kategori makanan, minuman, atau dessert yang tersedia.</li>
+                <li>Pilih item menu sesuai selera dan perhatikan harga yang tertera.</li>
+                <li>Sampaikan nama menu dan jumlah pesanan kepada pelayan.</li>
+                <li>Periksa kembali pesanan dan total harga sebelum pembayaran.</li>
+                <li>Lakukan pembayaran, kemudian tunggu pesanan disiapkan dan disajikan.</li>
+            </ol>
+        </div>
+
+        <div class="pemesanan-card">
+            <h3>📋 Daftar Menu Bertingkat</h3>
+            <p>Contoh <em>nested list</em> yang mengelompokkan menu berdasarkan kategori:</p>
+            <ul class="menu-bertingkat">
+                <li>Makanan
+                    <ul>
+                        <li>Nasi Goreng Spesial</li>
+                        <li>Sate Ayam Madura</li>
+                        <li>Soto Ayam Lamongan</li>
+                        <li>Gado-Gado Betawi</li>
+                    </ul>
+                </li>
+                <li>Minuman
+                    <ul>
+                        <li>Es Teh Manis</li>
+                        <li>Es Jeruk Segar</li>
+                        <li>Kopi Tubruk</li>
+                        <li>Jus Alpukat</li>
+                    </ul>
+                </li>
+                <li>Dessert
+                    <ul>
+                        <li>Es Campur</li>
+                        <li>Pisang Goreng Keju</li>
+                        <li>Puding Coklat</li>
+                        <li>Klepon</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- VIDEO PROMOSI -->
+<!-- ============================================================ -->
+<section id="promosi" style="background-color:#fbe8cc;">
+
+    <div class="judul">
+        <h2>🎬 Video Promosi</h2>
+        <p>Yuk, lihat suasana Warung Selera Nostalgia dan hidangan yang kami sajikan.</p>
+    </div>
+
+    <div class="promo-video-wrap">
+        <div class="promo-video-screen">
+            <video controls autoplay muted loop playsinline>
+                <source src="warung-selera-nostalgia-promo-browser.mp4" type="video/mp4">
+                Browser Anda tidak mendukung pemutar video.
+            </video>
+        </div>
+    </div>
+
+    <p class="promo-video-note">
+        🏡 Tampilan depan warung • 🍳 Proses memasak • 🍚 Makanan khas Nusantara •
+        🥤 Minuman segar • 🍮 Dessert • ❤️ Suasana hangat
+    </p>
+
+</section>
+
+<!-- KEUNGGULAN -->
+<section class="keunggulan" id="tentang">
+    <div class="judul">
+        <h2>❤️ Mengapa Memilih Kami?</h2>
+        <p>Pengalaman makan yang sederhana, hangat dan penuh kenangan.</p>
+    </div>
+
+    <div class="keunggulan-container">
+        <div class="keunggulan-item">
+            <div class="keunggulan-icon">🥘</div>
+            <h3>Resep Turun-Temurun</h3>
+            <p>Setiap hidangan dibuat menggunakan resep khas untuk mempertahankan cita rasa Nusantara.</p>
+        </div>
+        <div class="keunggulan-item">
+            <div class="keunggulan-icon">🌱</div>
+            <h3>Bahan Segar</h3>
+            <p>Kami menggunakan bahan pilihan yang segar untuk menjaga kualitas makanan.</p>
+        </div>
+        <div class="keunggulan-item">
+            <div class="keunggulan-icon">🏡</div>
+            <h3>Suasana Nyaman</h3>
+            <p>Tempat yang hangat dan nyaman untuk makan bersama keluarga dan teman.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PROMO -->
+<section class="promo">
+    <h2>🍽️ Rasakan Nostalgianya!</h2>
+    <p>Dari nasi goreng hingga sate Madura, setiap sajian membawa rasa khas Indonesia yang membuat Anda ingin kembali lagi.</p>
+    <a href="#alamat" class="tombol">📍 Datang Sekarang</a>
+</section>
+
+<!-- ALAMAT -->
+<section class="alamat" id="alamat">
+    <div class="judul"><h2>📍 Informasi Alamat</h2></div>
+    <div class="alamat-box">
+        <h3>Warung Selera Nostalgia</h3>
+        <p>
+            Jl. Kenanga Raya No. 12, Kelurahan Sukamaju<br>
+            Jakarta Selatan, DKI Jakarta 12345<br>
+            📞 Telepon: (021) 555-1234<br>
+            🕐 Jam Operasional: 10.00 - 22.00 WIB<br>
+            Setiap Hari
+        </p>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Warung Selera Nostalgia. Seluruh hak cipta dilindungi undang-undang.</p>
+</footer>
+
+</body>
+</html>
