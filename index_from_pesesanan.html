@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warung Selera Nostalgia</title>
+
+    <style>
+        /* ===================================== RESET ===================================== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff5e6;
+            color: #3d2415;
+        }
+
+        /* ===================================== NAVBAR ===================================== */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 18px 8%;
+            background-color: rgba(70, 32, 10, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+        .logo { color: #ffd166; font-size: 22px; font-weight: bold; }
+        nav a { color: white; text-decoration: none; margin-left: 25px; font-weight: bold; transition: 0.3s; }
+        nav a:hover { color: #ffd166; }
+
+        /* ===================================== HERO ===================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex; justify-content: center; align-items: center;
+            text-align: center; position: relative; overflow: hidden; color: white;
+            background:
+                linear-gradient(rgba(60, 25, 8, 0.78), rgba(60, 25, 8, 0.78)),
+                linear-gradient(135deg, #8b4513, #d2691e);
+        }
+        .hero-content { max-width: 850px; animation: muncul 2s ease; padding: 30px; }
+        .hero h1 { font-size: 60px; color: #ffd166; margin-bottom: 20px; animation: zoom 1.5s ease; }
+        .hero h2 { font-size: 30px; margin-bottom: 20px; }
+        .hero p { font-size: 18px; line-height: 1.8; margin-bottom: 30px; }
+        .orang { position: absolute; right: 7%; bottom: 0; font-size: 180px; animation: orangMasuk 2s ease; }
+        .makanan { position: absolute; font-size: 60px; animation: melayang 4s infinite ease-in-out; }
+        .makanan1 { left: 8%; top: 25%; }
+        .makanan2 { left: 18%; bottom: 20%; animation-delay: 1s; }
+        .makanan3 { right: 15%; top: 20%; animation-delay: 2s; }
+        .makanan4 { right: 8%; bottom: 25%; animation-delay: 3s; }
+
+        .tombol {
+            display: inline-block; padding: 15px 30px; margin: 5px;
+            background-color: #f4a261; color: white; text-decoration: none;
+            border-radius: 30px; font-weight: bold; transition: 0.4s;
+        }
+        .tombol:hover { transform: scale(1.1); background-color: #e76f51; }
+
+        .running { background-color: #542b13; color: #ffd166; padding: 15px; overflow: hidden; white-space: nowrap; }
+        .running-text { display: inline-block; animation: berjalan 15s linear infinite; font-weight: bold; }
+
+        section { padding: 80px 10%; }
+        .judul { text-align: center; margin-bottom: 45px; }
+        .judul h2 { font-size: 38px; color: #7b3f00; margin-bottom: 15px; }
+        .judul p { color: #6d5545; }
+
+        /* ===================================== KATEGORI MENU ===================================== */
+        .kategori-wrap { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+
+        .kategori-card {
+            background-color: #ffffff;
+            border-radius: 22px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(123, 63, 0, 0.12);
+        }
+
+        .kategori-head {
+            display: flex; align-items: center; gap: 16px;
+            padding: 22px 28px;
+            background: linear-gradient(120deg, #7b3f00, #b5591a);
+            color: #fff;
+        }
+        .kategori-head .ikon-bulat {
+            width: 54px; height: 54px; border-radius: 50%;
+            background-color: #ffd166; color: #7b3f00;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 26px; flex-shrink: 0;
+        }
+        .kategori-head h3 { font-size: 24px; }
+        .kategori-head span { font-size: 14px; opacity: 0.85; }
+
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 26px 28px 30px;
+        }
+
+        .item-menu {
+            display: flex; align-items: center; gap: 16px;
+            background-color: #fff8ee;
+            border-radius: 16px;
+            padding: 12px;
+            transition: 0.3s;
+            border: 1px solid #f1dcbb;
+        }
+        .item-menu:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(123,63,0,0.15); }
+
+        .emoji-menu {
+            width: 84px; height: 84px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #fff1c7, #ffe0a3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 46px;
+            flex-shrink: 0;
+            box-shadow: inset 0 0 0 1px #f1dcbb;
+        }
+
+        .item-info { flex: 1; }
+        .item-info .nama-baris { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .item-info h4 { font-size: 16px; color: #3d2415; }
+
+        .badge-favorit {
+            background-color: #ffd166;
+            color: #7b3f00;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 3px 9px;
+            border-radius: 20px;
+        }
+
+        .item-info .harga-item {
+            margin-top: 6px;
+            display: inline-block;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(120deg, #e76f51, #d35400);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+            .item-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===================================== TABEL MENU ===================================== */
+        .tabel-wrap {
+            max-width: 1000px;
+            margin: 40px auto 0;
+            background-color: #ffffff;
+            border-radius: 22px;
+            padding: 28px;
+            box-shadow: 0 12px 35px rgba(123, 63, 0, 0.12);
+            overflow-x: auto;
+        }
+        .tabel-wrap h3 { color: #7b3f00; margin-bottom: 18px; text-align: center; font-size: 24px; }
+
+        .tabel-menu { width: 100%; border-collapse: collapse; font-size: 15px; }
+        .tabel-menu caption { caption-side: bottom; padding-top: 12px; font-size: 13px; color: #6d5545; }
+        .tabel-menu th, .tabel-menu td { padding: 12px 14px; border: 1px solid #f1dcbb; text-align: left; }
+        .tabel-menu thead th { background: linear-gradient(120deg, #7b3f00, #b5591a); color: #fff; text-align: center; }
+        .tabel-menu tbody tr:nth-child(even) { background-color: #fff8ee; }
+        .tabel-menu tbody tr:hover { background-color: #ffeccc; }
+        .tabel-menu td.kategori { background-color: #ffd166; color: #7b3f00; font-weight: bold; text-align: center; vertical-align: middle; }
+        .tabel-menu td.angka { text-align: center; }
+        .tabel-menu td.harga { text-align: right; font-weight: bold; color: #d35400; }
+        .tabel-menu tfoot td { background-color: #542b13; color: #ffd166; text-align: center; font-weight: bold; }
+
+        /* ===================================== VIDEO PROMOSI ===================================== */
+        .promo-video-wrap {
+            width: 100%;
+            max-width: 950px;
+            margin: 0 auto;
+            background-color: #2b1408;
+            border-radius: 24px;
+            padding: 12px;
+            box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+        }
+
+        .promo-video-screen {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border-radius: 16px;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .promo-video-screen video {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .promo-video-note {
+            text-align: center;
+            color: #6d5545;
+            font-size: 14px;
+            max-width: 760px;
+            margin: 18px auto 0;
+            line-height: 1.7;
+        }
+
+        /* ===================================== PEMESANAN ===================================== */
+        .pemesanan { background-color: #fffaf2; }
+        .pemesanan-box { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .pemesanan-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(123,63,0,0.10); }
+        .pemesanan-card h3 { color: #7b3f00; margin-bottom: 15px; font-size: 24px; }
+        .pemesanan-card p { line-height: 1.7; color: #6d5545; margin-bottom: 12px; }
+        .langkah-pesan { padding-left: 24px; line-height: 1.8; }
+        .langkah-pesan li { margin-bottom: 12px; }
+        .menu-bertingkat { padding-left: 24px; line-height: 1.8; }
+        .menu-bertingkat > li { margin-bottom: 8px; font-weight: bold; color: #7b3f00; }
+        .menu-bertingkat ul { margin-top: 4px; padding-left: 25px; font-weight: normal; color: #3d2415; }
+        .menu-bertingkat ul li { margin-bottom: 4px; }
+        @media (max-width: 700px) { .pemesanan-box { grid-template-columns: 1fr; } }
+
+        /* ===================================== FORM PEMESANAN ===================================== */
+        .form-section { background-color: #fff5e6; }
+        .form-pesan {
+            max-width: 900px; margin: 0 auto; background: #fff;
+            padding: 35px; border-radius: 22px;
+            box-shadow: 0 12px 35px rgba(123,63,0,0.12);
+        }
+        .form-pesan fieldset {
+            border: 1px solid #f1dcbb; border-radius: 16px;
+            padding: 20px 22px 22px; margin-bottom: 25px;
+        }
+        .form-pesan legend {
+            padding: 0 12px; font-weight: bold; color: #7b3f00; font-size: 18px;
+        }
+        .form-baris { margin-bottom: 16px; }
+        .form-baris label.teks { display: block; font-weight: bold; margin-bottom: 6px; color: #3d2415; }
+        .form-pesan input[type="text"],
+        .form-pesan input[type="tel"],
+        .form-pesan input[type="date"] {
+            width: 100%; padding: 12px 14px; font-size: 15px;
+            border: 1px solid #e0c8a0; border-radius: 10px;
+            background-color: #fffdf8; font-family: inherit;
+        }
+        .form-pesan input:focus { outline: 2px solid #f4a261; border-color: #f4a261; }
+        .form-pesan input:disabled { background-color: #f3ece0; color: #aaa; cursor: not-allowed; }
+
+        .kat-judul { margin: 14px 0 10px; color: #b5591a; font-size: 16px; }
+        .pilih-item {
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            background-color: #fff8ee; border: 1px solid #f1dcbb;
+            border-radius: 12px; padding: 10px 14px; margin-bottom: 8px;
+        }
+        .pilih-item label { flex: 1; cursor: pointer; }
+        .pilih-item label small { color: #d35400; font-weight: bold; margin-left: 6px; }
+        .pilih-item input[type="checkbox"] { margin-right: 8px; transform: scale(1.2); }
+        .pilih-item .qty { width: 90px !important; text-align: center; }
+
+        .bayar-grup { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+        .bayar-judul { grid-column: 1 / -1; margin-top: 6px; color: #b5591a; font-size: 15px; font-weight: bold; }
+        .bayar-opsi {
+            display: flex; flex-direction: column; align-items: center; gap: 6px;
+            border: 2px solid #f1dcbb; border-radius: 14px; padding: 12px 8px;
+            cursor: pointer; background: #fffdf8; transition: 0.3s; font-size: 13px; font-weight: bold;
+        }
+        .bayar-opsi:hover { border-color: #f4a261; }
+        .bayar-opsi:has(input:checked) { border-color: #e76f51; background: #fff0e6; }
+        .bayar-opsi svg { width: 64px; height: 38px; }
+
+        .total-box {
+            text-align: right; font-size: 18px; font-weight: bold;
+            color: #7b3f00; margin-bottom: 20px;
+        }
+        .tombol-submit {
+            width: 100%; padding: 15px; border: none; border-radius: 30px;
+            background-color: #e76f51; color: #fff; font-size: 17px; font-weight: bold;
+            cursor: pointer; transition: 0.3s;
+        }
+        .tombol-submit:hover { background-color: #d35400; transform: scale(1.02); }
+
+        .hasil-pesan {
+            display: none; max-width: 900px; margin: 25px auto 0;
+            background: #fff; border-left: 6px solid #2a9d8f;
+            padding: 25px 30px; border-radius: 14px; line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .hasil-pesan h3 { color: #2a9d8f; margin-bottom: 10px; }
+        @media (max-width: 700px) { .bayar-grup { grid-template-columns: repeat(2, 1fr); } }
+
+        /* ===================================== KEUNGGULAN ===================================== */
+        .keunggulan { background-color: #f1d6b8; }
+        .keunggulan-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .keunggulan-item { background-color: white; padding: 30px; text-align: center; border-radius: 20px; transition: 0.4s; }
+        .keunggulan-item:hover { transform: translateY(-10px); }
+        .keunggulan-icon { font-size: 55px; margin-bottom: 15px; }
+        .keunggulan-item h3 { margin-bottom: 10px; }
+        .keunggulan-item p { line-height: 1.6; color: #666; }
+
+        /* ===================================== PROMO ===================================== */
+        .promo { text-align: center; background-color: #542b13; color: white; }
+        .promo h2 { font-size: 42px; color: #ffd166; animation: berdenyut 2s infinite; margin-bottom: 20px; }
+        .promo p { font-size: 18px; line-height: 1.7; margin-bottom: 25px; }
+
+        /* ===================================== ALAMAT ===================================== */
+        .alamat { text-align: center; }
+        .alamat-box {
+            max-width: 700px; margin: auto; background-color: white; padding: 35px;
+            border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); line-height: 2;
+        }
+
+        footer { background-color: #2b1408; color: white; text-align: center; padding: 25px; }
+
+        /* ===================================== ANIMASI ===================================== */
+        @keyframes muncul { from { opacity: 0; transform: translateY(60px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes zoom { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+        @keyframes orangMasuk { from { opacity: 0; transform: translateX(200px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes melayang { 0% { transform: translateY(0); } 50% { transform: translateY(-25px); } 100% { transform: translateY(0); } }
+        @keyframes berjalan { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        @keyframes berdenyut { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+
+        /* ===================================== RESPONSIVE ===================================== */
+        @media (max-width: 800px) {
+            nav { padding: 15px; }
+            nav a { margin-left: 8px; font-size: 12px; }
+            .hero h1 { font-size: 40px; }
+            .hero h2 { font-size: 22px; }
+            .orang { font-size: 100px; right: 5%; }
+            .makanan { font-size: 35px; }
+            .keunggulan-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="logo">🍽️ Selera Nostalgia</div>
+    <div>
+        <a href="#beranda">Beranda</a>
+        <a href="#menu">Menu</a>
+        <a href="#promosi">Promosi</a>
+        <a href="#pemesanan">Cara Pesan</a>
+        <a href="#form-pesan">Pesan</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#alamat">Kontak</a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="beranda">
+    <div class="makanan makanan1">🍜</div>
+    <div class="makanan makanan2">🍢</div>
+    <div class="makanan makanan3">🍚</div>
+    <div class="makanan makanan4">🥤</div>
+    <div class="orang">👩🏻‍🍳</div>
+
+    <div class="hero-content">
+        <h1>Warung Selera Nostalgia</h1>
+        <h2>Cita Rasa Nusantara dalam Setiap Sajian</h2>
+        <p>
+            Selamat datang di Warung Selera Nostalgia! Kami menyajikan berbagai hidangan khas
+            Indonesia yang diolah dengan bahan-bahan segar dan resep turun-temurun.
+        </p>
+        <a href="#menu" class="tombol">🍽️ Lihat Menu</a>
+        <a href="#form-pesan" class="tombol">📝 Pesan Sekarang</a>
+        <a href="#alamat" class="tombol">📍 Kunjungi Kami</a>
+    </div>
+</section>
+
+<!-- RUNNING TEXT -->
+<div class="running">
+    <div class="running-text">
+        🇮🇩 CITA RASA NUSANTARA • MASAKAN LEZAT • HARGA TERJANGKAU • SUASANA HANGAT • SELERA NOSTALGIA 🇮🇩
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- MENU                                                          -->
+<!-- ============================================================ -->
+<section id="menu">
+
+    <div class="judul">
+        <h2>🍴 Daftar Menu Kami</h2>
+        <p>Menu khas Indonesia dengan ikon makanan, minuman, dan dessert yang dikelompokkan per kategori.</p>
+        <p style="font-size:13px; margin-top:10px;">Harga ditampilkan dalam Rupiah (Rp) beserta perkiraan dalam Dollar Amerika (&dollar;). Kurs yang digunakan: &dollar;1 &asymp; Rp 15.000.</p>
+    </div>
+
+    <div class="kategori-wrap">
+
+        <!-- KATEGORI: MAKANAN -->
+        <div class="kategori-card">
+            <div class="kategori-head">
+                <div class="ikon-bulat">🍛</div>
+                <div>
+                    <h3>Makanan Utama</h3>
+                    <span>Hidangan berat khas Nusantara</span>
+                </div>
+            </div>
+            <div class="item-grid">
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Nasi Goreng Spesial">🍳</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Nasi Goreng Spesial</h4>
+                            <span class="badge-favorit">Favorit</span>
+                        </div>
+                        <span class="harga-item">Rp 25.000 ($1,67)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Sate Ayam Madura">🍢</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Sate Ayam Madura</h4>
+                            <span class="badge-favorit">Favorit</span>
+                        </div>
+                        <span class="harga-item">Rp 30.000 ($2,00)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Soto Ayam Lamongan">🍲</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Soto Ayam Lamongan</h4>
+                        </div>
+                        <span class="harga-item">Rp 22.000 ($1,47)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Gado-Gado Betawi">🥗</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Gado-Gado Betawi</h4>
+                        </div>
+                        <span class="harga-item">Rp 20.000 ($1,33)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KATEGORI: MINUMAN -->
+        <div class="kategori-card">
+            <div class="kategori-head">
+                <div class="ikon-bulat">🥤</div>
+                <div>
+                    <h3>Minuman Segar</h3>
+                    <span>Penyegar dahaga di siang hari</span>
+                </div>
+            </div>
+            <div class="item-grid">
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Es Teh Manis">🧋</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Es Teh Manis</h4></div>
+                        <span class="harga-item">Rp 8.000 ($0,53)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Es Jeruk Segar">🍊</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Es Jeruk Segar</h4></div>
+                        <span class="harga-item">Rp 10.000 ($0,67)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Kopi Tubruk">☕</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Kopi Tubruk</h4></div>
+                        <span class="harga-item">Rp 9.000 ($0,60)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Jus Alpukat">🥑</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Jus Alpukat</h4></div>
+                        <span class="harga-item">Rp 15.000 ($1,00)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- KATEGORI: DESSERT -->
+        <div class="kategori-card">
+            <div class="kategori-head">
+                <div class="ikon-bulat">🍮</div>
+                <div>
+                    <h3>Dessert Manis</h3>
+                    <span>Penutup untuk melengkapi santapan</span>
+                </div>
+            </div>
+            <div class="item-grid">
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Es Campur">🍧</div>
+                    <div class="item-info">
+                        <div class="nama-baris">
+                            <h4>Es Campur</h4>
+                            <span class="badge-favorit">Favorit</span>
+                        </div>
+                        <span class="harga-item">Rp 15.000 ($1,00)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Pisang Goreng Keju">🍌</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Pisang Goreng Keju</h4></div>
+                        <span class="harga-item">Rp 12.000 ($0,80)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Puding Coklat">🍮</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Puding Coklat</h4></div>
+                        <span class="harga-item">Rp 13.000 ($0,87)</span>
+                    </div>
+                </div>
+
+                <div class="item-menu">
+                    <div class="emoji-menu" aria-label="Klepon">🍡</div>
+                    <div class="item-info">
+                        <div class="nama-baris"><h4>Klepon</h4></div>
+                        <span class="harga-item">Rp 10.000 ($0,67)</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TABEL DAFTAR MENU -->
+    <div class="tabel-wrap">
+        <h3>📊 Tabel Daftar Menu &amp; Harga</h3>
+
+        <table class="tabel-menu">
+            <caption>Kurs yang digunakan: $1 &asymp; Rp 15.000</caption>
+            <thead>
+                <tr>
+                    <th>Kategori</th>
+                    <th>No</th>
+                    <th>Nama Menu</th>
+                    <th>Harga (Rp)</th>
+                    <th>Perkiraan ($)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- MAKANAN -->
+                <tr>
+                    <td class="kategori" rowspan="4">🍛 Makanan</td>
+                    <td class="angka">1</td>
+                    <td>Nasi Goreng Spesial ⭐</td>
+                    <td class="harga">Rp 25.000</td>
+                    <td class="angka">$1,67</td>
+                </tr>
+                <tr>
+                    <td class="angka">2</td>
+                    <td>Sate Ayam Madura ⭐</td>
+                    <td class="harga">Rp 30.000</td>
+                    <td class="angka">$2,00</td>
+                </tr>
+                <tr>
+                    <td class="angka">3</td>
+                    <td>Soto Ayam Lamongan</td>
+                    <td class="harga">Rp 22.000</td>
+                    <td class="angka">$1,47</td>
+                </tr>
+                <tr>
+                    <td class="angka">4</td>
+                    <td>Gado-Gado Betawi</td>
+                    <td class="harga">Rp 20.000</td>
+                    <td class="angka">$1,33</td>
+                </tr>
+
+                <!-- MINUMAN -->
+                <tr>
+                    <td class="kategori" rowspan="4">🥤 Minuman</td>
+                    <td class="angka">5</td>
+                    <td>Es Teh Manis</td>
+                    <td class="harga">Rp 8.000</td>
+                    <td class="angka">$0,53</td>
+                </tr>
+                <tr>
+                    <td class="angka">6</td>
+                    <td>Es Jeruk Segar</td>
+                    <td class="harga">Rp 10.000</td>
+                    <td class="angka">$0,67</td>
+                </tr>
+                <tr>
+                    <td class="angka">7</td>
+                    <td>Kopi Tubruk</td>
+                    <td class="harga">Rp 9.000</td>
+                    <td class="angka">$0,60</td>
+                </tr>
+                <tr>
+                    <td class="angka">8</td>
+                    <td>Jus Alpukat</td>
+                    <td class="harga">Rp 15.000</td>
+                    <td class="angka">$1,00</td>
+                </tr>
+
+                <!-- DESSERT -->
+                <tr>
+                    <td class="kategori" rowspan="4">🍮 Dessert</td>
+                    <td class="angka">9</td>
+                    <td>Es Campur ⭐</td>
+                    <td class="harga">Rp 15.000</td>
+                    <td class="angka">$1,00</td>
+                </tr>
+                <tr>
+                    <td class="angka">10</td>
+                    <td>Pisang Goreng Keju</td>
+                    <td class="harga">Rp 12.000</td>
+                    <td class="angka">$0,80</td>
+                </tr>
+                <tr>
+                    <td class="angka">11</td>
+                    <td>Puding Coklat</td>
+                    <td class="harga">Rp 13.000</td>
+                    <td class="angka">$0,87</td>
+                </tr>
+                <tr>
+                    <td class="angka">12</td>
+                    <td>Klepon</td>
+                    <td class="harga">Rp 10.000</td>
+                    <td class="angka">$0,67</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">⭐ = Menu Favorit Pelanggan</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+</section>
+
+
+<!-- PEMESANAN -->
+<section class="pemesanan" id="pemesanan">
+    <div class="judul">
+        <h2>📝 Cara Memesan Makanan</h2>
+        <p>Ikuti langkah-langkah berikut agar proses pemesanan di Warung Selera Nostalgia mudah dan teratur.</p>
+    </div>
+
+    <div class="pemesanan-box">
+        <div class="pemesanan-card">
+            <h3>5 Langkah Pemesanan</h3>
+            <ol class="langkah-pesan">
+                <li>Pilih kategori makanan, minuman, atau dessert yang tersedia.</li>
+                <li>Pilih item menu sesuai selera dan perhatikan harga yang tertera.</li>
+                <li>Sampaikan nama menu dan jumlah pesanan kepada pelayan.</li>
+                <li>Periksa kembali pesanan dan total harga sebelum pembayaran.</li>
+                <li>Lakukan pembayaran, kemudian tunggu pesanan disiapkan dan disajikan.</li>
+            </ol>
+        </div>
+
+        <div class="pemesanan-card">
+            <h3>📋 Daftar Menu Bertingkat</h3>
+            <p>Contoh <em>nested list</em> yang mengelompokkan menu berdasarkan kategori:</p>
+            <ul class="menu-bertingkat">
+                <li>Makanan
+                    <ul>
+                        <li>Nasi Goreng Spesial</li>
+                        <li>Sate Ayam Madura</li>
+                        <li>Soto Ayam Lamongan</li>
+                        <li>Gado-Gado Betawi</li>
+                    </ul>
+                </li>
+                <li>Minuman
+                    <ul>
+                        <li>Es Teh Manis</li>
+                        <li>Es Jeruk Segar</li>
+                        <li>Kopi Tubruk</li>
+                        <li>Jus Alpukat</li>
+                    </ul>
+                </li>
+                <li>Dessert
+                    <ul>
+                        <li>Es Campur</li>
+                        <li>Pisang Goreng Keju</li>
+                        <li>Puding Coklat</li>
+                        <li>Klepon</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FORM PEMESANAN (TUGAS PRAKTIKUM PERTEMUAN 8)                  -->
+<!-- ============================================================ -->
+<section class="form-section" id="form-pesan">
+
+    <div class="judul">
+        <h2>🛒 Form Pemesanan</h2>
+        <p>Isi data di bawah ini untuk melakukan pemesanan di Warung Selera Nostalgia.</p>
+    </div>
+
+    <form class="form-pesan" id="formPesanan" action="#" method="post">
+
+        <!-- DATA PEMESAN: textbox + input type date -->
+        <fieldset>
+            <legend>👤 Data Pemesan</legend>
+
+            <div class="form-baris">
+                <label class="teks" for="nama">Nama Lengkap</label>
+                <input type="text" id="nama" name="nama" placeholder="Masukkan nama lengkap" required>
+            </div>
+
+            <div class="form-baris">
+                <label class="teks" for="hp">No. HP</label>
+                <input type="tel" id="hp" name="hp" placeholder="Contoh: 081234567890" pattern="[0-9]{10,14}" title="Masukkan 10-14 digit angka" required>
+            </div>
+
+            <div class="form-baris">
+                <label class="teks" for="tanggal">Tanggal Booking</label>
+                <input type="date" id="tanggal" name="tanggal" required>
+            </div>
+        </fieldset>
+
+        <!-- PILIHAN PAKET: checkbox + textbox jumlah -->
+        <fieldset>
+            <legend>🍽️ Pilihan Paket Menu</legend>
+            <p style="font-size:13px; color:#6d5545;">Centang menu yang dipesan, lalu isi jumlah itemnya.</p>
+
+            <h4 class="kat-judul">🍛 Makanan</h4>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Nasi Goreng Spesial" data-harga="25000"> Nasi Goreng Spesial <small>Rp 25.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Sate Ayam Madura" data-harga="30000"> Sate Ayam Madura <small>Rp 30.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Soto Ayam Lamongan" data-harga="22000"> Soto Ayam Lamongan <small>Rp 22.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Gado-Gado Betawi" data-harga="20000"> Gado-Gado Betawi <small>Rp 20.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+
+            <h4 class="kat-judul">🥤 Minuman</h4>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Es Teh Manis" data-harga="8000"> Es Teh Manis <small>Rp 8.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Es Jeruk Segar" data-harga="10000"> Es Jeruk Segar <small>Rp 10.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Kopi Tubruk" data-harga="9000"> Kopi Tubruk <small>Rp 9.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Jus Alpukat" data-harga="15000"> Jus Alpukat <small>Rp 15.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+
+            <h4 class="kat-judul">🍮 Dessert</h4>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Es Campur" data-harga="15000"> Es Campur <small>Rp 15.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Pisang Goreng Keju" data-harga="12000"> Pisang Goreng Keju <small>Rp 12.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Puding Coklat" data-harga="13000"> Puding Coklat <small>Rp 13.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+            <div class="pilih-item">
+                <label><input type="checkbox" name="menu" value="Klepon" data-harga="10000"> Klepon <small>Rp 10.000</small></label>
+                <input type="text" class="qty" placeholder="Jumlah" inputmode="numeric" disabled>
+            </div>
+        </fieldset>
+
+        <!-- PEMBAYARAN: radio button + logo + textbox nomor kartu -->
+        <fieldset>
+            <legend>💳 Pilihan Pembayaran</legend>
+
+            <div class="bayar-grup">
+                <div class="bayar-judul">Kartu Debit / Kredit</div>
+
+                <label class="bayar-opsi">
+                    <input type="radio" name="pembayaran" value="Visa" required>
+                    <svg viewBox="0 0 64 38" role="img" aria-label="Logo Visa">
+                        <rect width="64" height="38" rx="6" fill="#1a1f71"/>
+                        <text x="32" y="26" text-anchor="middle" font-family="Arial" font-weight="bold" font-style="italic" font-size="19" fill="#ffffff">VISA</text>
+                    </svg>
+                    Visa
+                </label>
+
+                <label class="bayar-opsi">
+                    <input type="radio" name="pembayaran" value="Mastercard">
+                    <svg viewBox="0 0 64 38" role="img" aria-label="Logo Mastercard">
+                        <rect width="64" height="38" rx="6" fill="#ffffff" stroke="#ddd"/>
+                        <circle cx="25" cy="19" r="12" fill="#eb001b"/>
+                        <circle cx="39" cy="19" r="12" fill="#f79e1b" fill-opacity="0.9"/>
+                    </svg>
+                    Mastercard
+                </label>
+
+                <div class="bayar-judul">Dompet Digital</div>
+
+                <label class="bayar-opsi">
+                    <input type="radio" name="pembayaran" value="GoPay">
+                    <svg viewBox="0 0 64 38" role="img" aria-label="Logo GoPay">
+                        <rect width="64" height="38" rx="6" fill="#00aed6"/>
+                        <text x="32" y="25" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="15" fill="#ffffff">GoPay</text>
+                    </svg>
+                    GoPay
+                </label>
+
+                <label class="bayar-opsi">
+                    <input type="radio" name="pembayaran" value="OVO">
+                    <svg viewBox="0 0 64 38" role="img" aria-label="Logo OVO">
+                        <rect width="64" height="38" rx="6" fill="#4c2a86"/>
+                        <text x="32" y="26" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="19" fill="#ffffff">OVO</text>
+                    </svg>
+                    OVO
+                </label>
+
+                <label class="bayar-opsi">
+                    <input type="radio" name="pembayaran" value="DANA">
+                    <svg viewBox="0 0 64 38" role="img" aria-label="Logo DANA">
+                        <rect width="64" height="38" rx="6" fill="#118eea"/>
+                        <text x="32" y="26" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="17" fill="#ffffff">DANA</text>
+                    </svg>
+                    DANA
+                </label>
+
+                <label class="bayar-opsi">
+                    <input type="radio" name="pembayaran" value="ShopeePay">
+                    <svg viewBox="0 0 64 38" role="img" aria-label="Logo ShopeePay">
+                        <rect width="64" height="38" rx="6" fill="#ee4d2d"/>
+                        <text x="32" y="24" text-anchor="middle" font-family="Arial" font-weight="bold" font-size="12" fill="#ffffff">ShopeePay</text>
+                    </svg>
+                    ShopeePay
+                </label>
+            </div>
+
+            <div class="form-baris" style="margin-top:20px;">
+                <label class="teks" for="nomorKartu" id="labelNomor">Nomor Kartu / Nomor Dompet Digital</label>
+                <input type="text" id="nomorKartu" name="nomorKartu" placeholder="Pilih metode pembayaran terlebih dahulu" inputmode="numeric" disabled required>
+            </div>
+        </fieldset>
+
+        <div class="total-box">Total Pesanan: <span id="totalHarga">Rp 0</span></div>
+
+        <!-- BUTTON SUBMIT -->
+        <button type="submit" class="tombol-submit">🚀 Kirim Pesanan</button>
+    </form>
+
+    <div class="hasil-pesan" id="hasilPesan"></div>
+</section>
+
+<!-- ============================================================ -->
+<!-- VIDEO PROMOSI -->
+<!-- ============================================================ -->
+<section id="promosi" style="background-color:#fbe8cc;">
+
+    <div class="judul">
+        <h2>🎬 Video Promosi</h2>
+        <p>Yuk, lihat suasana Warung Selera Nostalgia dan hidangan yang kami sajikan.</p>
+    </div>
+
+    <div class="promo-video-wrap">
+        <div class="promo-video-screen">
+            <video controls autoplay muted loop playsinline>
+                <source src="warung-selera-nostalgia-promo-browser.mp4" type="video/mp4">
+                Browser Anda tidak mendukung pemutar video.
+            </video>
+        </div>
+    </div>
+
+    <p class="promo-video-note">
+        🏡 Tampilan depan warung • 🍳 Proses memasak • 🍚 Makanan khas Nusantara •
+        🥤 Minuman segar • 🍮 Dessert • ❤️ Suasana hangat
+    </p>
+
+</section>
+
+<!-- KEUNGGULAN -->
+<section class="keunggulan" id="tentang">
+    <div class="judul">
+        <h2>❤️ Mengapa Memilih Kami?</h2>
+        <p>Pengalaman makan yang sederhana, hangat dan penuh kenangan.</p>
+    </div>
+
+    <div class="keunggulan-container">
+        <div class="keunggulan-item">
+            <div class="keunggulan-icon">🥘</div>
+            <h3>Resep Turun-Temurun</h3>
+            <p>Setiap hidangan dibuat menggunakan resep khas untuk mempertahankan cita rasa Nusantara.</p>
+        </div>
+        <div class="keunggulan-item">
+            <div class="keunggulan-icon">🌱</div>
+            <h3>Bahan Segar</h3>
+            <p>Kami menggunakan bahan pilihan yang segar untuk menjaga kualitas makanan.</p>
+        </div>
+        <div class="keunggulan-item">
+            <div class="keunggulan-icon">🏡</div>
+            <h3>Suasana Nyaman</h3>
+            <p>Tempat yang hangat dan nyaman untuk makan bersama keluarga dan teman.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PROMO -->
+<section class="promo">
+    <h2>🍽️ Rasakan Nostalgianya!</h2>
+    <p>Dari nasi goreng hingga sate Madura, setiap sajian membawa rasa khas Indonesia yang membuat Anda ingin kembali lagi.</p>
+    <a href="#alamat" class="tombol">📍 Datang Sekarang</a>
+</section>
+
+<!-- ALAMAT -->
+<section class="alamat" id="alamat">
+    <div class="judul"><h2>📍 Informasi Alamat</h2></div>
+    <div class="alamat-box">
+        <h3>Warung Selera Nostalgia</h3>
+        <p>
+            Jl. Kenanga Raya No. 12, Kelurahan Sukamaju<br>
+            Jakarta Selatan, DKI Jakarta 12345<br>
+            📞 Telepon: (021) 555-1234<br>
+            🕐 Jam Operasional: 10.00 - 22.00 WIB<br>
+            Setiap Hari
+        </p>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Warung Selera Nostalgia. Seluruh hak cipta dilindungi undang-undang.</p>
+</footer>
+
+<!-- ============================================================ -->
+<!-- JAVASCRIPT FORM                                               -->
+<!-- ============================================================ -->
+<script>
+    var form = document.getElementById("formPesanan");
+    var cekMenu = form.querySelectorAll('input[name="menu"]');
+    var radioBayar = form.querySelectorAll('input[name="pembayaran"]');
+    var nomorKartu = document.getElementById("nomorKartu");
+    var labelNomor = document.getElementById("labelNomor");
+    var totalHarga = document.getElementById("totalHarga");
+    var hasilPesan = document.getElementById("hasilPesan");
+
+    function rupiah(angka) {
+        return "Rp " + angka.toLocaleString("id-ID");
+    }
+
+    // Tanggal booking minimal hari ini
+    var hariIni = new Date();
+    var yyyy = hariIni.getFullYear();
+    var mm = String(hariIni.getMonth() + 1).padStart(2, "0");
+    var dd = String(hariIni.getDate()).padStart(2, "0");
+    document.getElementById("tanggal").min = yyyy + "-" + mm + "-" + dd;
+
+    // Hitung total harga
+    function hitungTotal() {
+        var total = 0;
+        cekMenu.forEach(function (cb) {
+            if (cb.checked) {
+                var qty = parseInt(cb.closest(".pilih-item").querySelector(".qty").value, 10);
+                if (!isNaN(qty) && qty > 0) {
+                    total += qty * parseInt(cb.dataset.harga, 10);
+                }
+            }
+        });
+        totalHarga.textContent = rupiah(total);
+        return total;
+    }
+
+    // Checkbox mengaktifkan textbox jumlah
+    cekMenu.forEach(function (cb) {
+        var qty = cb.closest(".pilih-item").querySelector(".qty");
+        cb.addEventListener("change", function () {
+            qty.disabled = !cb.checked;
+            if (cb.checked) {
+                if (qty.value === "") qty.value = "1";
+                qty.focus();
+            } else {
+                qty.value = "";
+            }
+            hitungTotal();
+        });
+        qty.addEventListener("input", function () {
+            qty.value = qty.value.replace(/[^0-9]/g, "");
+            hitungTotal();
+        });
+    });
+
+    // Radio pembayaran mengaktifkan textbox nomor
+    radioBayar.forEach(function (rb) {
+        rb.addEventListener("change", function () {
+            var kartu = (rb.value === "Visa" || rb.value === "Mastercard");
+            nomorKartu.disabled = false;
+            nomorKartu.value = "";
+            if (kartu) {
+                labelNomor.textContent = "Nomor Kartu " + rb.value + " (16 digit)";
+                nomorKartu.placeholder = "Contoh: 4111111111111111";
+                nomorKartu.maxLength = 16;
+                nomorKartu.pattern = "[0-9]{16}";
+                nomorKartu.title = "Masukkan 16 digit nomor kartu";
+            } else {
+                labelNomor.textContent = "Nomor " + rb.value + " (No. HP terdaftar)";
+                nomorKartu.placeholder = "Contoh: 081234567890";
+                nomorKartu.maxLength = 14;
+                nomorKartu.pattern = "[0-9]{10,14}";
+                nomorKartu.title = "Masukkan 10-14 digit nomor";
+            }
+        });
+    });
+
+    nomorKartu.addEventListener("input", function () {
+        nomorKartu.value = nomorKartu.value.replace(/[^0-9]/g, "");
+    });
+
+    // Submit
+    form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        var daftar = [];
+        var valid = true;
+        cekMenu.forEach(function (cb) {
+            if (cb.checked) {
+                var qty = parseInt(cb.closest(".pilih-item").querySelector(".qty").value, 10);
+                if (isNaN(qty) || qty < 1) { valid = false; }
+                else { daftar.push(cb.value + " x" + qty); }
+            }
+        });
+
+        if (daftar.length === 0 || !valid) {
+            alert("Pilih minimal satu menu dan isi jumlah dengan benar (minimal 1).");
+            return;
+        }
+
+        var bayar = form.querySelector('input[name="pembayaran"]:checked').value;
+        var tgl = new Date(document.getElementById("tanggal").value).toLocaleDateString("id-ID", {
+            day: "numeric", month: "long", year: "numeric"
+        });
+
+        hasilPesan.innerHTML =
+            "<h3>✅ Pesanan Berhasil Dikirim!</h3>" +
+            "<b>Nama:</b> " + document.getElementById("nama").value + "<br>" +
+            "<b>No. HP:</b> " + document.getElementById("hp").value + "<br>" +
+            "<b>Tanggal Booking:</b> " + tgl + "<br>" +
+            "<b>Pesanan:</b> " + daftar.join(", ") + "<br>" +
+            "<b>Total:</b> " + rupiah(hitungTotal()) + "<br>" +
+            "<b>Pembayaran:</b> " + bayar + " (" + nomorKartu.value + ")";
+        hasilPesan.style.display = "block";
+        hasilPesan.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+</script>
+
+</body>
+</html>
